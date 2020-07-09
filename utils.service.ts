@@ -103,41 +103,4 @@ export class UtilsService {
       }      
     })
   }
-
-  getLocationWeb(): Observable<{coords: {latitude: number, longitude: number} | string}>{
-    console.log("Called getLocationWeb (rxjs)")
-    let error_msg
-    return Observable.create(observer => {
-      if (window.navigator && window.navigator.geolocation) {
-        window.navigator.geolocation.getCurrentPosition(
-          position => {
-            observer.next({
-              coords: {
-                latitude: position.coords.latitude,
-                longitude: position.coords.longitude
-              }
-            })
-            observer.complete()
-          },
-          error => {
-            switch (error.code) {
-              case 1:
-                console.log('Location: Permission Denied');
-                error_msg = 'Error obtaining location. Permission Denied.'
-                break; 
-              case 2:
-                console.log('Location: Position Unavailable');
-                error_msg = 'Error obtaining location. Position Unavailable.'
-                break;
-              case 3:
-                console.log('Location: Timeout');
-                error_msg = 'Error obtaining location. Timeout ocurred.'
-                break;
-            }
-            observer.error(error_msg)
-          }
-        )
-      }
-    })    
-  }
 }
